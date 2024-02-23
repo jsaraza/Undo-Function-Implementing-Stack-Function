@@ -430,7 +430,7 @@ public:
         {
             //
             /// calls node if the undo command is SET
-            /// keeps the value that was deleted when the element was set to something else
+            /// keeps the value that was deleted when the element was set to some other variable
             /// puts the value back and removes the node from the call stack
             //
             if (tail->undo_command == "SET")

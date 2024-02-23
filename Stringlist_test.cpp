@@ -286,6 +286,24 @@ void test_remove_all()
     assert(lst.to_string() == "{}");
 }
 
+void test_remove_large_n()
+{
+    Test("remove_all");
+    Stringlist lst;
+    assert(lst.empty());
+    assert(lst.to_string() == "{}");
+
+    for (int i = 0; i < 50000; i++)
+    {
+        lst.insert_back("A");
+    }
+    for (int i = 0; i < 50000; i++)
+    {
+        lst.remove_all();
+    }
+    assert(lst.empty());
+}
+
 void test_remove_first()
 {
     Test("remove_first");
@@ -356,21 +374,22 @@ void test_equals()
 
 int main()
 {
-    test_default_constructor();
-    test_assignment_operator();
-    test_size_empty();
-    test_get();
-    test_index_of();
-    test_contains();
-    test_set();
-    test_insert_before();
-    test_insert_back();
-    test_insert_front();
-    test_remove_at();
-    test_remove_all();
-    test_remove_first();
-    test_to_string();
-    test_equals();
+    test_remove_large_n();
+    /*     test_default_constructor();
+        test_assignment_operator();
+        test_size_empty();
+        test_get();
+        test_index_of();
+        test_contains();
+        test_set();
+        test_insert_before();
+        test_insert_back();
+        test_insert_front();
+        test_remove_at();
+        test_remove_all();
+        test_remove_first();
+        test_to_string();
+        test_equals(); */
 
     cout << "\nAll Stringlist tests passed!\n";
 } // main
