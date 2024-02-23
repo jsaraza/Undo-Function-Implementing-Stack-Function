@@ -85,15 +85,16 @@ class Stringlist
         {
             cap *= 2;
             string *temp = new string[cap];
+            head->capc = cap;
+            tail->capc = cap;
+            this->cap = cap;
             for (int i = 0; i < sz; i++)
             {
-                temp[i] = arr[i];
+                temp[i] = this->arr[i];
             }
-            delete[] arr;
-            arr = temp;
-            delete[] temp;
-            temp = nullptr;
+            this->arr = temp;
         }
+        return;
     }
 
 public:
@@ -282,7 +283,7 @@ public:
         //
         // assigns insert to corresponding index
         //
-        arr[index] = s;
+        this->arr[index] = s;
 
         //
         // increases size by 1

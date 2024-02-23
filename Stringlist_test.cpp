@@ -4,6 +4,7 @@
 #include <cassert>
 #include <iostream>
 #include <string>
+#include <chrono>
 
 using namespace std;
 
@@ -21,6 +22,27 @@ struct Test
         cout << "... " << name << " done: all tests passed\n";
     }
 }; // struct Test
+
+class Timer
+{
+private:
+    // Type aliases to make accessing nested type easier
+    using Clock = std::chrono::steady_clock;
+    using Second = std::chrono::duration<double, std::ratio<1>>;
+
+    chrono::time_point<Clock> m_beg{Clock::now()};
+
+public:
+    void reset()
+    {
+        m_beg = Clock::now();
+    }
+
+    double elapsed() const
+    {
+        return std::chrono::duration_cast<Second>(Clock::now() - m_beg).count();
+    }
+};
 
 void test_default_constructor()
 {
@@ -288,19 +310,23 @@ void test_remove_all()
 
 void test_remove_large_n()
 {
-    Test("remove_all");
+    Test("remove_all large n");
     Stringlist lst;
     assert(lst.empty());
     assert(lst.to_string() == "{}");
+
+    Timer t;
 
     for (int i = 0; i < 50000; i++)
     {
         lst.insert_back("A");
     }
-    for (int i = 0; i < 50000; i++)
-    {
-        lst.remove_all();
-    }
+    cout << "Timer for insertion of elements: " << t.elapsed() << " seconds\n";
+
+    Timer s;
+
+    lst.remove_all();
+    cout << "Timer for removal via undo of elements: " << s.elapsed() << " seconds\n";
     assert(lst.empty());
 }
 
@@ -375,21 +401,21 @@ void test_equals()
 int main()
 {
     test_remove_large_n();
-    /*     test_default_constructor();
-        test_assignment_operator();
-        test_size_empty();
-        test_get();
-        test_index_of();
-        test_contains();
-        test_set();
-        test_insert_before();
-        test_insert_back();
-        test_insert_front();
-        test_remove_at();
-        test_remove_all();
-        test_remove_first();
-        test_to_string();
-        test_equals(); */
+    test_default_constructor();
+    test_assignment_operator();
+    test_size_empty();
+    test_get();
+    test_index_of();
+    test_contains();
+    test_set();
+    test_insert_before();
+    test_insert_back();
+    test_insert_front();
+    test_remove_at();
+    test_remove_all();
+    test_remove_first();
+    test_to_string();
+    test_equals();
 
     cout << "\nAll Stringlist tests passed!\n";
 } // main
