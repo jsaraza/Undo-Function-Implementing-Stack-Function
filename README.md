@@ -26,9 +26,9 @@ bool undo()
 }
 ```
 
-Your job is to implement `undo`, thus making `Stringlist` an _undoable_ list.
+This project will implement the function `undo`, thus making `Stringlist` an _undoable_ list.
 
-When it's done, you'll be able to write code like this:
+When it's done, you'll be able to test it like this:
 
 ```cpp
 #include "Stringlist.h"
@@ -77,8 +77,7 @@ g++ -std=c++17 -Wall -Wextra -Werror -Wfatal-errors -Wno-sign-compare -Wnon-virt
 ## Designing the Undo Stack
 
 As mentioned above, you must implement `undo()` using at least one _private
-stack_ implemented as a linked list inside the `Stringlist` class. You can
-modify `Stringlist` only as described at the start of this assignment.
+stack_ implemented as a linked list inside the `Stringlist` class.
 
 The main idea for how undo works is that every time `Stringlist` is modified by
 one a method that can be undone, it _pushes_ the _inverse_ operation on the top
