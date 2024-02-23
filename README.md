@@ -10,22 +10,6 @@ implements a string list as a dynamic array.
 [Stringlist_test.cpp](Stringlist_test.cpp) has tests for all the methods in
 [Stringlist](Stringlist.h).
 
-`Stringlist` has one unimplemented method:
-
-```cpp
-//
-// Undoes the last operation that modified the list. Returns true if a
-// change was undone.
-//
-// If there is nothing to undo, does nothing and returns false.
-//
-bool undo()
-{
-    cout << "Stringlist::undo: not yet implemented\n";
-    return false;
-}
-```
-
 This project will implement the function `undo`, thus making `Stringlist` an _undoable_ list.
 
 When it's done, you'll be able to test it like this:
@@ -76,7 +60,7 @@ g++ -std=c++17 -Wall -Wextra -Werror -Wfatal-errors -Wno-sign-compare -Wnon-virt
 
 ## Designing the Undo Stack
 
-As mentioned above, you must implement `undo()` using at least one _private
+The implemented `undo()` method is using at least one _private
 stack_ implemented as a linked list inside the `Stringlist` class.
 
 The main idea for how undo works is that every time `Stringlist` is modified by

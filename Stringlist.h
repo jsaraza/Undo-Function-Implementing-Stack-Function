@@ -2,12 +2,8 @@
 
 /////////////////////////////////////////////////////////////////////////
 //
-// Student Info
-// ------------
 //
 // Name : Jaime Saraza
-// St.# : 301462218
-// Email: jms40@sfu.ca
 //
 //
 // Statement of Originality
@@ -18,15 +14,8 @@
 // detail so that someone can see the exact source and extent of the
 // borrowed work.
 //
-// In addition, I have not shared this work with anyone else, and I have
-// not seen solutions from other students, tutors, websites, books,
-// etc.
 //
 /////////////////////////////////////////////////////////////////////////
-
-//
-// Do not use any other #includes or #pragmas in this file.
-//
 
 #pragma once
 
@@ -37,11 +26,12 @@
 using namespace std;
 
 class Stringlist
-{   
-    struct Node{
+{
+    struct Node
+    {
         int node_index = 0;
         string undo_command;
-        string value; 
+        string value;
         int string_index = 0;
         Node *next;
         Node *prev;
@@ -49,8 +39,8 @@ class Stringlist
         int sze;
     };
 
-    Node* head = nullptr;
-    Node* tail = nullptr;
+    Node *head = nullptr;
+    Node *tail = nullptr;
 
     int cap;     // capacity
     string *arr; // array of strings
@@ -130,11 +120,11 @@ public:
     // destructor
     //
     ~Stringlist()
-    {   
-        //delete[] arr;       //deletes existing array
+    {
+        // delete[] arr;       //deletes existing array
         if (head != nullptr)
         {
-            while (head != nullptr)         // loops over everysingle node in the call stack and deletes it
+            while (head != nullptr) // loops over everysingle node in the call stack and deletes it
             {
                 remove_node_from_stack(head);
             }
@@ -180,13 +170,15 @@ public:
             copy(other.arr);
         }
         return *this;
-    }   
-    
+    }
+
     //
     // Returns the number of strings in the list.
     //
-    int size() const { 
-        return sz; }
+    int size() const
+    {
+        return sz;
+    }
 
     //
     // Returns true if the list is empty, false otherwise.
@@ -267,20 +259,19 @@ public:
     // undoable
     //
     void insert_before(int index, const string &s)
-    {   
+    {
         //
-        //adds to the call stack what was inserted 
+        // adds to the call stack what was inserted
         //
         add_stack(head, tail, s, index, "INSERT", cap, sz);
         //
-        //checks if index is within the boundary of our array
+        // checks if index is within the boundary of our array
         //
         if (index < 0 || index > sz)
         { // allows insert at end, i == sz
             bounds_error("insert_before");
         }
         check_capacity();
-        
 
         //
         // moves every single element in the arry from the index over to the right
@@ -289,12 +280,12 @@ public:
             arr[i] = arr[i - 1];
         }
         //
-        //assigns insert to corresponding index
+        // assigns insert to corresponding index
         //
         arr[index] = s;
 
         //
-        //increases size by 1
+        // increases size by 1
         //
         sz++;
     }
@@ -329,7 +320,7 @@ public:
     void remove_at(int index)
     {
         //
-        ///adds to the call stack the sign to remove, the index it was removed at and the value it was removed at
+        /// adds to the call stack the sign to remove, the index it was removed at and the value it was removed at
         //
         add_stack(head, tail, arr[index], index, "REMOVE", cap, sz);
         //
@@ -369,12 +360,12 @@ public:
     {
         //
         /// creates a loop to remove everything one by one until the size of the array is 0
-        /// calls each element onto a call stack 
+        /// calls each element onto a call stack
         /// decreases sz one by one until sz == 0
         //
         while (sz > 0)
         {
-            add_stack(head, tail, arr[sz-1], sz - 1, "REMOVEALL", cap, sz);
+            add_stack(head, tail, arr[sz - 1], sz - 1, "REMOVEALL", cap, sz);
             arr[sz] = "";
             sz--;
         }
@@ -406,19 +397,28 @@ public:
     bool undo()
     {
         if (undo_set() == true)
-        {return true;}
+        {
+            return true;
+        }
         else if (undo_insert() == true)
-        {return true;}
+        {
+            return true;
+        }
         else if (undo_removeAt() == true)
-        {return true;}
+        {
+            return true;
+        }
         else if (undo_remove_all() == true)
-        {return true;}
+        {
+            return true;
+        }
         else if (undo_equals() == true)
-        {return true;}
+        {
+            return true;
+        }
         cout << "Stringlist::undo: not yet implemented\n";
         return false;
     }
-
 
     bool undo_set()
     {
@@ -427,9 +427,9 @@ public:
             return false;
         }
         else
-        {   
+        {
             //
-            /// calls node if the undo command is SET 
+            /// calls node if the undo command is SET
             /// keeps the value that was deleted when the element was set to something else
             /// puts the value back and removes the node from the call stack
             //
@@ -472,8 +472,8 @@ public:
                 else
                 {
                     for (int i = tail->string_index; i < sz; i++)
-                    {  
-                        arr[i] = arr[i+1]; 
+                    {
+                        arr[i] = arr[i + 1];
                     }
                 }
                 remove_node_from_stack(head);
@@ -483,18 +483,20 @@ public:
         return false;
     }
 
-    //  
+    //
     /////                     //for the method below//
     //
     /// if the command in the call stack is REMOVEALL we can continue into a while loop
     //
-    /// we will keep adding the elements back in the array until the call command changes 
+    /// we will keep adding the elements back in the array until the call command changes
     //
 
     bool undo_remove_all()
     {
         if (tail == nullptr)
-        {return false;}
+        {
+            return false;
+        }
         else if (tail->undo_command == "REMOVEALL")
         {
             while (tail->undo_command == "REMOVEALL")
@@ -511,23 +513,22 @@ public:
                     }
                     else
                     {
-                        for (int i = sz-1; i > tail->string_index; i--)
-                        {   
-                            arr[i] = arr[i-1];
+                        for (int i = sz - 1; i > tail->string_index; i--)
+                        {
+                            arr[i] = arr[i - 1];
                         }
                         arr[tail->string_index] = tail->value;
                     }
                 }
                 remove_node_from_stack(head);
-                this->sz ++;
+                this->sz++;
             }
             return true;
         }
         return false;
     }
 
-
-    // 
+    //
     /// if the command in the call stack is REMOVE we will add the element we removed back into the corresponding indice
     //
     /// we will then move every element over to the right
@@ -543,7 +544,7 @@ public:
         }
         else
         {
-            if(tail->undo_command == "REMOVE")
+            if (tail->undo_command == "REMOVE")
             {
                 if (sz < 1)
                 {
@@ -557,16 +558,16 @@ public:
                     }
                     else
                     {
-                        for (int i = sz-1; i > tail->string_index; i--)
-                        {   
-                            arr[i] = arr[i-1];
+                        for (int i = sz - 1; i > tail->string_index; i--)
+                        {
+                            arr[i] = arr[i - 1];
                         }
                         arr[tail->string_index] = tail->value;
                     }
                 }
-                
+
                 remove_node_from_stack(head);
-                this->sz ++;
+                this->sz++;
                 return true;
             }
         }
@@ -576,11 +577,11 @@ public:
     //
     /// to undo the equals operator we will delete the current array and recreate the cap and sz
     //
-    /// the call stack of the object being changed is untouched 
+    /// the call stack of the object being changed is untouched
     /// therefore we can recreate the object from before when it was deleted and assigned as another object
     //
     /// while the call stack command is EQUALS we can set each element in the array back to what it previously was
-    /// one by one until it is back to normal and each time we will increase sz 
+    /// one by one until it is back to normal and each time we will increase sz
     //
 
     bool undo_equals()
@@ -608,10 +609,10 @@ public:
     }
 
     // this function below deletes the last node from the stack
-    //Citations for help: https://www.javatpoint.com/deletion-in-doubly-linked-list-at-the-end
+    // Citations for help: https://www.javatpoint.com/deletion-in-doubly-linked-list-at-the-end
     // https://www.alphacodingskills.com/cpp/ds/cpp-delete-the-last-node-of-the-doubly-linked-list.php
 
-    void remove_node_from_stack(Node* head)
+    void remove_node_from_stack(Node *head)
     {
         if (head == nullptr || tail == nullptr)
         {
@@ -627,7 +628,7 @@ public:
         }
         else
         {
-            Node * deleteNode = tail;
+            Node *deleteNode = tail;
             tail = tail->prev;
             tail->next = nullptr;
             delete deleteNode;
@@ -637,9 +638,9 @@ public:
     }
 
     // this function is to get the current number of elements in the stack to help navigate the index of the stack
-    int get_stack_size(Node* head)
+    int get_stack_size(Node *head)
     {
-        Node* current = head;
+        Node *current = head;
         int current_index = 0;
 
         while (current != nullptr)
@@ -649,11 +650,11 @@ public:
         }
         return current_index;
     }
-    
-    void add_stack(Node*&head, Node*&tail, string value, int index, string undo_command, int capc, int sze)
+
+    void add_stack(Node *&head, Node *&tail, string value, int index, string undo_command, int capc, int sze)
     {
-        Node* newNode = new Node{get_stack_size(head) + 1, undo_command, value, index, nullptr, nullptr, capc, sze};
-        if(head == nullptr && tail == nullptr)
+        Node *newNode = new Node{get_stack_size(head) + 1, undo_command, value, index, nullptr, nullptr, capc, sze};
+        if (head == nullptr && tail == nullptr)
         {
             head = newNode;
             tail = newNode;
@@ -665,7 +666,6 @@ public:
             tail = newNode;
         }
     }
-
 
 }; // class Stringlist
 
