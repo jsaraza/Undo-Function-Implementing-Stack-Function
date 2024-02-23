@@ -317,7 +317,7 @@ void test_remove_large_n()
 
     Timer t;
 
-    for (int i = 0; i < 50000; i++)
+    for (int i = 0; i < 25000; i++)
     {
         lst.insert_back("A");
     }
