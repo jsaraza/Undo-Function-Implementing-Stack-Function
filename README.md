@@ -70,7 +70,7 @@ applies that operation to the list, thus undoing the most recent operation.
 
 **Important** All the methods in [Stringlist](Stringlist.h) marked "undoable"
 should work with `undo()`. Note that `undo()` cannot be undone: there is no
-"re-do" feature in this assignment.
+"re-do" feature.
 
 Here are some examples of how specific methods should work.
 
@@ -231,14 +231,14 @@ this assignment.
 
 ### Testing Your Code
 
-In [a2_test.cpp](a2_test.cpp), write
+In [Stringlist_list.cpp](Stringlist_list.cpp), write
 code to test your `Stringlist` undo method. Compile and run it like this:
 
 ```bash
-❯ make a2_test
-g++  -std=c++17 -Wall -Wextra -Werror -Wfatal-errors -Wno-sign-compare -Wnon-virtual-dtor -g   a2_test.cpp   -o a2_test
+❯ make Stringlist_list
+g++  -std=c++17 -Wall -Wextra -Werror -Wfatal-errors -Wno-sign-compare -Wnon-virtual-dtor -g   Stringlist_list.cpp   -o Stringlist_list
 
-> ./a2_test
+> ./Stringlist_list
 ... testing output ...
 ```
 
